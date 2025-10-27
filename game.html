@@ -3,146 +3,199 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>丟垃圾大考驗 - 遊戲</title>
+<title>海廢學 - 遊戲</title>
 <link rel="stylesheet" href="style.css">
+<style>
+  /* 額外遊戲樣式 */
+  main { padding: 20px; }
+  .question-container { display: none; }
+  .active { display: block; }
+  img.qimg { max-width: 120px; margin: 6px; border-radius:8px; border:2px solid #ddd; }
+  button.option { margin:8px; padding:10px 16px; border-radius:8px; border:none; cursor:pointer; background:#2a7b6f; color:#fff; }
+  button.option:disabled { opacity:0.6; cursor:default; }
+  .result { font-weight:bold; margin-top:12px; font-size:18px; }
+  .nav-visible { display:block !important; } /* 用於顯示 nav */
+  #finish { margin-top:24px; }
+  .small { font-size:14px; color:#666; }
+</style>
 </head>
 <body>
 <header>
-<h2>🎮 丟垃圾大考驗</h2>
-<button class="menu-button" onclick="toggleMenu()">☰</button>
-<nav id="menu">
-<a href="index.html"> 首頁</a>
-<a href="game.html"> 遊戲</a>
-<a href="about.html"> 關於</a>
-<a href="learn.html"> 知識</a>
-</nav>
+  <h2>海廢學_紙類回收</h2>
+  <button class="menu-button" onclick="toggleMenu()">☰</button>
+  <nav id="menu">
+    <a href="index.html"> 首頁</a>
+    <a href="game.html"> 小遊戲</a>
+    <a href="about.html"> 關於</a>
+    <a href="learn.html"> 知識</a>
+  </nav>
 </header>
-    .question-container {
-      display: none;
-    }
 
-    .active {
-      display: block;
-    }
-
-    img {
-      max-width: 120px;
-      margin: 5px;
-      border-radius: 8px;
-      border: 2px solid #ccc;
-    }
-
-    button {
-      background-color: #3498db;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      margin: 10px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-
-    button:hover {
-      background-color: #2980b9;
-    }
-
-    .result {
-      font-weight: bold;
-      margin-top: 10px;
-      font-size: 18px;
-    }
-
-    .next-btn {
-      display: none;
-    }
-  </style>
-</head>
-<body>
-
-  <h1> 紙容器是什麼 </h1>
-
+<main>
   <!-- 第一題 -->
   <div class="question-container active" id="q1">
-    <h2>第一題：下列哪幾個是紙容器？</h2>
+    <h3>第一題（分辨紙與紙容器）：下列哪幾個是紙容器？</h3>
     <div>
-      <img src="圖片庫/1.png" alt="紙盒">
-      <img src="圖片庫/2.png" alt="便當餐盒">
-      <img src="圖片庫/3.png" alt="寶利龍">
-      <img src="圖片庫/4.png" alt="手搖飲料杯">
-      <img src="圖片庫/5.png" alt="牛皮紙便當盒">
+      <img class="qimg" src="圖片庫/1.png" alt="1">
+      <img class="qimg" src="圖片庫/2.png" alt="2">
+      <img class="qimg" src="圖片庫/3.png" alt="3">
+      <img class="qimg" src="圖片庫/4.png" alt="4">
+      <img class="qimg" src="圖片庫/5.png" alt="5">
     </div>
-    <button onclick="checkAnswer(1, '1')">① 1 2 3</button>
-    <button onclick="checkAnswer(1, '2')">② 1 3</button>
-    <button onclick="checkAnswer(1, '3')">③ 2 4 5</button>
-    <div class="result" id="result1"></div>
-    <button class="next-btn" id="next1" onclick="nextQuestion(2)">下一題 ➡️</button>
+    <div style="margin-top:12px;">
+      <button class="option" onclick="selectOption(1, '1')">選項一：123</button>
+      <button class="option" onclick="selectOption(1, '2')">選項二：13</button>
+      <button class="option" onclick="selectOption(1, '3')">選項三：245</button>
+    </div>
+    <div id="result1" class="result"></div>
+    <button id="next1" class="option" style="display:none; background:#4caf50;" onclick="goToQuestion(2)">下一題 ➜</button>
   </div>
 
   <!-- 第二題 -->
   <div class="question-container" id="q2">
-    <h2>第二題：請選擇哪個排列順序是對的？</h2>
-    <button onclick="checkAnswer(2, '1')">① 疊分清</button>
-    <button onclick="checkAnswer(2, '2')">② 清疊分</button>
-    <button onclick="checkAnswer(2, '3')">③ 清分疊</button>
-    <div class="result" id="result2"></div>
-    <div id="q2image" style="margin-top:15px;"></div>
-    <button class="next-btn" id="next2" onclick="nextQuestion(3)">下一題 ➡️</button>
+    <h3>第二題（清分疊）：請選擇哪個排列順序是對的？</h3>
+    <div>
+      <button class="option" onclick="selectOption(2,'1')">選項一：疊>分>清</button>
+      <button class="option" onclick="selectOption(2,'2')">選項二：清>疊>分</button>
+      <button class="option" onclick="selectOption(2,'3')">選項三：清>分>疊</button>
+    </div>
+    <div id="result2" class="result"></div>
+    <!-- 第二題圖片在使用者按下選項後出現（不論對錯） -->
+    <div id="q2image" style="margin-top:12px;"></div>
+    <button id="next2" class="option" style="display:none; background:#4caf50;" onclick="goToQuestion(3)">下一題 ➜</button>
   </div>
 
   <!-- 第三題 -->
   <div class="question-container" id="q3">
-    <h2>第三題：下列哪一個選項必須與紙容器分開後才能進行回收？</h2>
-    <button onclick="checkAnswer(3, '1')">① 淋膜</button>
-    <button onclick="checkAnswer(3, '2')">② 金屬</button>
-    <button onclick="checkAnswer(3, '3')">③ 保麗龍</button>
-    <div class="result" id="result3"></div>
-    <button class="next-btn" id="next3" onclick="showFinish()">完成遊戲 ✅</button>
+    <h3>第三題（分解重製）：下列那一個選項是必須與紙容器分開後才能進行回收？</h3>
+    <div>
+      <button class="option" onclick="selectOption(3,'1')">選項一：淋膜</button>
+      <button class="option" onclick="selectOption(3,'2')">選項二：金屬</button>
+      <button class="option" onclick="selectOption(3,'3')">選項三：保麗龍</button>
+    </div>
+    <div id="result3" class="result"></div>
+    <button id="next3" class="option" style="display:none; background:#4caf50;" onclick="finishQuiz()">完成並觀看解說 ➜</button>
   </div>
 
-  <div id="finish" style="display:none; margin-top:30px;">
-    <h2>🎉 恭喜完成所有題目！</h2>
-    <p>你已經掌握資源回收的正確觀念！</p>
+  <!-- 完成 / 重新挑戰 -->
+  <div id="finish" style="display:none;">
+    <h3> 恭喜完成所有題目！</h3>
+    <p class="small">你可以按下「重新挑戰」再來一次，或按「觀看解說」了解更多。</p>
+    <button class="option" onclick="restartQuiz()">🔁 重新挑戰</button>
+    <button class="option" onclick="playExplanation()">▶ 觀看解說</button>
   </div>
 
-  <script>
-    const answers = {
-      1: '3',
-      2: '3',
-      3: '1'
-    };
+  <!-- 影片容器 -->
+  <div id="videoWrap" style="display:none; margin-top:18px;">
+    <video id="explainVideo" width="560" controls>
+      <source src="影片/animation.mp4" type="video/mp4">
+      您的瀏覽器不支援影片播放。
+    </video>
+  </div>
+</main>
 
-    function checkAnswer(q, selected) {
-      const result = document.getElementById('result' + q);
-      const nextBtn = document.getElementById('next' + q);
+<script>
+/* 導覽選單切換 */
+function toggleMenu() {
+  const menu = document.getElementById('menu');
+  // 若原本 style.display 被 style.css 控制，可用 class 切換
+  if (!menu.style.display || menu.style.display === 'none') {
+    menu.style.display = 'block';
+  } else {
+    menu.style.display = 'none';
+  }
+}
 
-      if (selected === answers[q]) {
-        result.innerHTML = "✅ 答對了！";
-        result.style.color = "green";
+/* 題目正確答案設定 */
+const correct = {
+  1: '3', // 選項三（245）
+  2: '3', // 選項三（清分疊）
+  3: '1'  // 選項一（淋膜）
+};
 
-        // 第二題答對時出現圖片
-        if (q === 2) {
-          document.getElementById('q2image').innerHTML =
-            '<img src="圖片庫/q2.png" alt="清分疊">';
-        }
-      } else {
-        result.innerHTML = "❌ 再想想看！";
-        result.style.color = "red";
-      }
+/* 紀錄是否已答題 */
+const answered = {1:false,2:false,3:false};
 
-      nextBtn.style.display = "inline-block";
-    }
+function selectOption(q, optKey) {
+  if (answered[q]) return; // 如果已答過該題就不再處理
+  answered[q] = true;
 
-    function nextQuestion(next) {
-      document.querySelector('.active').classList.remove('active');
-      document.getElementById('q' + next).classList.add('active');
-    }
+  // 顯示結果文字
+  const resEl = document.getElementById('result' + q);
+  if (optKey === correct[q]) {
+    resEl.textContent = '✅ 答對了！';
+    resEl.style.color = 'green';
+  } else {
+    resEl.textContent = '❌ 答錯了！';
+    resEl.style.color = 'red';
+  }
 
-    function showFinish() {
-      document.querySelector('.active').classList.remove('active');
-      document.getElementById('finish').style.display = "block";
-    }
-  </script>
+  // 每題答完後停用該題其他按鈕（提高 UX）
+  const qDiv = document.getElementById('q' + q);
+  const buttons = qDiv.querySelectorAll('button.option');
+  buttons.forEach(b => b.disabled = true);
 
+  // 顯示下一題按鈕或完成按鈕
+  const nextBtn = document.getElementById('next' + q);
+  if (nextBtn) nextBtn.style.display = 'inline-block';
+
+  // 額外行為：第二題按下選項後顯示清分疊圖片（不論對錯）
+  if (q === 2) {
+    const imgWrap = document.getElementById('q2image');
+    imgWrap.innerHTML = '<img class="qimg" src="圖片庫/q2.png" alt="清分疊示意">';
+  }
+}
+
+/* 跳到指定題目（1-based） */
+function goToQuestion(n) {
+  // 隱藏目前 active
+  const active = document.querySelector('.question-container.active');
+  if (active) active.classList.remove('active');
+  // 顯示指定題
+  const next = document.getElementById('q' + n);
+  if (next) next.classList.add('active');
+}
+
+/* 完成流程：顯示 finish 區塊 */
+function finishQuiz() {
+  const active = document.querySelector('.question-container.active');
+  if (active) active.classList.remove('active');
+  document.getElementById('finish').style.display = 'block';
+}
+
+/* 重新開始（重置狀態） */
+function restartQuiz() {
+  // 重置 answered
+  answered[1] = answered[2] = answered[3] = false;
+  // 清除結果文字與圖片
+  document.getElementById('result1').textContent = '';
+  document.getElementById('result2').textContent = '';
+  document.getElementById('result3').textContent = '';
+  document.getElementById('q2image').innerHTML = '';
+  // 啟用按鈕
+  document.querySelectorAll('#q1 button.option, #q2 button.option, #q3 button.option').forEach(b => {
+    b.disabled = false;
+  });
+  // 隱藏 next 按鈕
+  document.getElementById('next1').style.display = 'none';
+  document.getElementById('next2').style.display = 'none';
+  document.getElementById('next3').style.display = 'none';
+  // 隱藏 finish 區塊與影片
+  document.getElementById('finish').style.display = 'none';
+  document.getElementById('videoWrap').style.display = 'none';
+  const vid = document.getElementById('explainVideo');
+  if (vid) { vid.pause(); vid.currentTime = 0; }
+  // 回到第一題
+  document.getElementById('q1').classList.add('active');
+}
+
+/* 播放解說動畫 */
+function playExplanation() {
+  // 顯示影片容器
+  document.getElementById('videoWrap').style.display = 'block';
+  const vid = document.getElementById('explainVideo');
+  if (vid) vid.play();
+}
+</script>
 </body>
 </html>
