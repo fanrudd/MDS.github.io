@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>環保小知識</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h2>🧠 環保小知識</h2>
+    <button class="menu-button" onclick="toggleMenu()">☰</button>
+    <nav id="menu">
+      <a href="index.html">🏠 首頁</a>
+      <a href="game.html">🎮 遊戲</a>
+      <a href="about.html">📖 關於</a>
+      <a href="learn.html">🧠 知識</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>學習資源回收分類</h1>
+    <ul>
+      <li>♻️ 塑膠瓶、鋁罐、紙類 → 資源回收桶</li>
+      <li>🍱 髒污食物包裝、廚餘 → 一般垃圾或廚餘桶</li>
+      <li>💡 廢電池、燈泡 → 特殊回收桶</li>
+    </ul>
+  </main>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('menu');
+      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    }
+  </script>
+</body>
+</html>
