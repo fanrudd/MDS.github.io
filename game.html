@@ -36,11 +36,11 @@
   <div class="question-container active" id="q1">
     <h3>第一題（分辨紙與紙容器）：下列哪幾個是紙容器？</h3>
     <div>
-      <img class="qimg" src="圖片庫/1.png" alt="1">
-      <img class="qimg" src="圖片庫/2.png" alt="2">
-      <img class="qimg" src="圖片庫/3.png" alt="3">
-      <img class="qimg" src="圖片庫/4.png" alt="4">
-      <img class="qimg" src="圖片庫/5.png" alt="5">
+        <img src="圖片庫/1.png" alt="紙盒">
+        <img src="圖片庫/2.png" alt="便當餐盒">
+        <img src="圖片庫/3.png" alt="寶利龍">
+        <img src="圖片庫/4.png" alt="手搖飲料杯">
+        <img src="圖片庫/5.png" alt="牛皮紙便當盒">
     </div>
     <div style="margin-top:12px;">
       <button class="option" onclick="selectOption(1, '1')">選項一：123</button>
@@ -133,7 +133,10 @@ function selectOption(q, optKey) {
   // 每題答完後停用該題其他按鈕（提高 UX）
   const qDiv = document.getElementById('q' + q);
   const buttons = qDiv.querySelectorAll('button.option');
-  buttons.forEach(b => b.disabled = true);
+  buttons.forEach(b => {
+    if (!b.id.startsWith('next')) b.disabled = true;
+  });
+
 
   // 顯示下一題按鈕或完成按鈕
   const nextBtn = document.getElementById('next' + q);
