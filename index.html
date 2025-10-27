@@ -31,4 +31,63 @@
     }
   </script>
 </body>
+  <!-- 右下浮動瀏覽人次（可點擊展開） -->
+<div id="visitorCount" style="
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(42,123,111,0.9);
+  color: white;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  z-index: 1000;
+  cursor: pointer;
+  transition: all 0.3s ease;
+">
+  瀏覽人次：<span id="countNum">0</span>
+  <div id="visitorDetail" style="
+    display:none;
+    margin-top:8px;
+    font-size:12px;
+    color:#fff;
+    background: rgba(0,0,0,0.2);
+    padding:6px 10px;
+    border-radius:8px;
+  ">
+    這裡可以顯示更多統計資訊
+  </div>
+</div>
+
+<script>
+const vc = document.getElementById('visitorCount');
+const detail = document.getElementById('visitorDetail');
+
+// 點擊切換展開/收起
+vc.addEventListener('click', ()=> {
+  if(detail.style.display==='none'){
+    detail.style.display='block';
+    vc.style.transform='translateY(-10px)';
+  } else {
+    detail.style.display='none';
+    vc.style.transform='translateY(0)';
+  }
+});
+
+// 讀取 CountAPI 訪客數
+fetch('https://api.countapi.xyz/hit/fanrudd.github.io/mds-home') 
+  .then(res=>res.json())
+  .then(data=>{
+    document.getElementById('countNum').textContent = data.value;
+    detail.textContent = `已累積訪問 ${data.value} 次`;
+  })
+  .catch(err=>{
+    console.error('CountAPI讀取失敗', err);
+    document.getElementById('countNum').textContent='—';
+    detail.textContent='統計資料暫時不可用';
+  });
+</script>
+
 </html>
