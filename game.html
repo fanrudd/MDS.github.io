@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>丟垃圾大考驗 - 遊戲</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h2>🎮 丟垃圾大考驗</h2>
+    <button class="menu-button" onclick="toggleMenu()">☰</button>
+    <nav id="menu">
+      <a href="index.html">🏠 首頁</a>
+      <a href="game.html">🎮 小遊戲</a>
+      <a href="about.html">📖 關於</a>
+      <a href="learn.html">🧠 知識</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>開始挑戰！</h1>
+    <p>請將物品拖曳至正確的垃圾桶！</p>
+    <div id="gameArea">
+      <div id="item">🍼 塑膠瓶</div>
+      <div id="bins">
+        <button onclick="checkAnswer('recycle')">♻️ 資源回收</button>
+        <button onclick="checkAnswer('trash')">🗑️ 一般垃圾</button>
+      </div>
+    </div>
+    <p id="result"></p>
+  </main>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('menu');
+      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    }
+    function checkAnswer(choice) {
+      const result = document.getElementById('result');
+      if (choice === 'recycle') {
+        result.textContent = '✅ 答對了！這是可回收物～';
+        result.style.color = 'green';
+      } else {
+        result.textContent = '❌ 錯誤，塑膠瓶應該回收哦！';
+        result.style.color = 'red';
+      }
+    }
+  </script>
+</body>
+</html>
