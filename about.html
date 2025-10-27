@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>關於本站</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h2>📖 關於本站</h2>
+    <button class="menu-button" onclick="toggleMenu()">☰</button>
+    <nav id="menu">
+      <a href="index.html">🏠 首頁</a>
+      <a href="game.html">🎮 遊戲</a>
+      <a href="about.html">📖 關於</a>
+      <a href="learn.html">🧠 知識</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>我們的理念</h1>
+    <p>本網站由教育團隊設計，目的在於透過遊戲方式讓學生學習環保與垃圾分類。</p>
+    <p>靈感來源：Rethink 回收教育網站。</p>
+  </main>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('menu');
+      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    }
+  </script>
+</body>
+</html>

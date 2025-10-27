@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>丟垃圾大考驗 ♻️</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h2>♻️ 丟垃圾大考驗</h2>
+    <button class="menu-button" onclick="toggleMenu()">☰</button>
+    <nav id="menu">
+      <a href="index.html">🏠 首頁</a>
+      <a href="game.html">🎮 遊戲</a>
+      <a href="about.html">📖 關於</a>
+      <a href="learn.html">🧠 知識</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>歡迎來到丟垃圾大考驗</h1>
+    <p>透過遊戲學習如何正確分類資源回收！</p>
+    <button onclick="window.location.href='game.html'">開始遊戲</button>
+  </main>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('menu');
+      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    }
+  </script>
+</body>
+</html>
