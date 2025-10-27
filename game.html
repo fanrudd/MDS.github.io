@@ -8,7 +8,7 @@
 </head>
 <body>
   <header>
-    <h2> 丟垃圾大考驗</h2>
+    <h2>🎮 丟垃圾大考驗</h2>
     <button class="menu-button" onclick="toggleMenu()">☰</button>
     <nav id="menu">
       <a href="index.html"> 首頁</a>
@@ -19,16 +19,20 @@
   </header>
 
   <main>
-    <h1>開始挑戰！</h1>
-    <p>請將物品拖曳至正確的垃圾桶！</p>
-    <div id="gameArea">
-      <div id="item">🍼 塑膠瓶</div>
-      <div id="bins">
-        <button onclick="checkAnswer('recycle')">♻️ 資源回收</button>
-        <button onclick="checkAnswer('trash')">🗑️ 一般垃圾</button>
+    <h1>遊戲關卡</h1>
+    <div id="quizArea">
+      <p id="question"></p>
+      <div id="options"></div>
+      <p id="feedback" style="font-weight:bold;"></p>
+      <button id="nextBtn" style="display:none;" onclick="nextQuestion()">下一題</button>
+      <button id="endBtn" style="display:none;" onclick="playVideo()">繼續觀看解說動畫</button>
+      <div id="videoContainer" style="display:none; margin-top:20px;">
+        <video width="480" controls>
+          <source src="video.mp4" type="video/mp4"> 
+          您的瀏覽器不支援影片播放。
+        </video>
       </div>
     </div>
-    <p id="result"></p>
   </main>
 
   <script>
@@ -36,16 +40,74 @@
       const menu = document.getElementById('menu');
       menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
     }
-    function checkAnswer(choice) {
-      const result = document.getElementById('result');
-      if (choice === 'recycle') {
-        result.textContent = '✅ 答對了！這是可回收物～';
-        result.style.color = 'green';
-      } else {
-        result.textContent = '❌ 錯誤，塑膠瓶應該回收哦！';
-        result.style.color = 'red';
+
+    const quiz = [
+      {
+        question: '第一題（分辨紙與紙容器）：下列哪幾個是紙容器？',
+        options: ['123', '13', '245'],
+        answer: 2
+      },
+      {
+        question: '第二題（清.分.疊）：請選擇哪個排列順序是對的？',
+        options: ['疊>分>清', '清>疊>分', '清>分>疊'],
+        answer: 2
+      },
+      {
+        question: '第三題（分解重製）：下列那一個選項是必須與紙容器分開後才能進行回收？',
+        options: ['淋膜', '金屬', '保麗龍'],
+        answer: 0
       }
+    ];
+
+    let currentQuestion = 0;
+
+    function loadQuestion() {
+      document.getElementById('feedback').textContent = '';
+      document.getElementById('nextBtn').style.display = 'none';
+      document.getElementById('endBtn').style.display = 'none';
+      const q = quiz[currentQuestion];
+      document.getElementById('question').textContent = q.question;
+      const optionsDiv = document.getElementById('options');
+      optionsDiv.innerHTML = '';
+      q.options.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.textContent = opt;
+        btn.onclick = () => checkAnswer(i);
+        optionsDiv.appendChild(btn);
+      });
     }
+
+    function checkAnswer(choice) {
+      const feedback = document.getElementById('feedback');
+      if (choice === quiz[currentQuestion].answer) {
+        feedback.textContent = '✅ 答對了！';
+        feedback.style.color = 'green';
+      } else {
+        feedback.textContent = '❌ 答錯了！';
+        feedback.style.color = 'red';
+      }
+      if (currentQuestion < quiz.length - 1) {
+        document.getElementById('nextBtn').style.display = 'inline-block';
+      } else {
+        document.getElementById('endBtn').style.display = 'inline-block';
+      }
+      // 禁用所有選項按鈕
+      const buttons = document.querySelectorAll('#options button');
+      buttons.forEach(btn => btn.disabled = true);
+    }
+
+    function nextQuestion() {
+      currentQuestion++;
+      loadQuestion();
+    }
+
+    function playVideo() {
+      document.getElementById('videoContainer').style.display = 'block';
+      document.getElementById('endBtn').style.display = 'none';
+    }
+
+    // 初始化載入第一題
+    loadQuestion();
   </script>
 </body>
 </html>
